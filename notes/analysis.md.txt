@@ -1,0 +1,84 @@
+# Reconstruction Analysis
+
+## Overview
+
+This project compares COLMAP reconstruction performance under two very different conditions:
+
+1. High-quality dataset (South Building)
+2. Low-quality dataset (car captured at night)
+
+The goal was to understand not just how the pipeline works, but when and why it fails.
+
+---
+
+## South Building (Controlled Dataset)
+
+- Input images: 127
+- Registered images: 127
+- Points:
+  - Exhaustive: 216,792
+  - Sequential: 85,203
+- Runtime: ~2.5 minutes
+
+### Observations
+
+- Both methods reconstruct the full structure
+- Exhaustive produces higher density
+- Sequential slightly reduces coverage but remains stable
+
+This shows what COLMAP can do when feature quality is high and consistent.
+
+---
+
+## Car Dataset (Real-World Failure Case)
+
+- Input images: 155
+- Registered images:
+  - Exhaustive: 83
+  - Sequential: 52
+  - Guided: 51
+- Points:
+  - Best case: 6,607
+  - Worst case: ~1,750
+
+### Observations
+
+- Reconstruction collapses early
+- Large portions of geometry are missing
+- Point cloud is extremely sparse
+
+---
+
+## Why It Failed
+
+The failure is almost entirely due to input conditions:
+
+- Low light → fewer detectable features
+- Motion blur → unstable keypoints
+- Reflective surfaces → inconsistent feature matches
+- Repeated angles → weak geometric constraints
+
+These break the multi-view matching pipeline.
+
+---
+
+## Key Insight
+
+Even though each image contained ~1500–3000 keypoints, very few could be matched across multiple views.
+
+Result:
+- High 2D keypoints
+- Very low 3D reconstruction
+
+---
+
+## Takeaway
+
+COLMAP does not fail randomly.
+
+It fails when:
+- feature quality is low
+- overlap between images is weak
+- geometry cannot be consistently triangulated
+
+This project made it clear that reconstruction quality is driven more by **data capture** than algorithm choice.

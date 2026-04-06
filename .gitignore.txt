@@ -1,0 +1,11 @@
+# mac
+.DS_Store
+
+# large COLMAP files
+*.db
+*.bin
+*.ply
+
+# raw datasets (we only keep samples)
+images/
+sparse/

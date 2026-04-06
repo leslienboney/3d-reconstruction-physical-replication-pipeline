@@ -1,0 +1,64 @@
+# Reconstruction Pipeline
+
+This project used COLMAP through its GUI interface, which maps directly to the following pipeline:
+
+---
+
+## Step 1 — Feature Extraction
+
+- SIFT features extracted per image
+- Stored in database
+
+Purpose:
+Detect repeatable points across images
+
+---
+
+## Step 2 — Feature Matching
+
+Three strategies tested:
+
+### Exhaustive Matching
+- Compares all image pairs
+- Highest coverage
+- Most expensive
+
+### Sequential Matching
+- Only compares nearby frames
+- Faster
+- Assumes ordered capture
+
+### Guided Matching
+- Filters incorrect matches
+- Reduces noise
+- Can reduce total matches
+
+---
+
+## Step 3 — Reconstruction
+
+- Uses matched features to estimate camera poses
+- Triangulates 3D points
+- Builds sparse point cloud
+
+---
+
+## Important Detail
+
+Each run:
+- started from a clean database
+- ran full pipeline end-to-end
+
+This ensures results reflect actual pipeline behavior, not cached data.
+
+---
+
+## What Breaks the Pipeline
+
+The system fails when:
+
+- features cannot be matched across images
+- geometric constraints are inconsistent
+- camera poses cannot be stabilized
+
+Once matching breaks, reconstruction stops expanding.
