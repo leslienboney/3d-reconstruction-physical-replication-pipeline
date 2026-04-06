@@ -1,5 +1,6 @@
 # 3D Reconstruction & Physical Replication Pipeline
 
+End-to-end multi-view reconstruction pipeline producing physical 3D outputs from real-world image data.
 Multi-view computer vision pipeline using COLMAP to reconstruct real-world objects from image data, with a focus on understanding reconstruction success vs failure.
 
 ---
